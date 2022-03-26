@@ -45,7 +45,9 @@ toastr.options = {
 
 // File Management Socket
 
-var file_socket = io.connect('http://' + document.domain + ':' + location.port + '/file');
+// var file_socket = io.connect('http://' + document.domain + ':' + location.port + '/file');
+var file_socket = io.connect(`${window.location.protocol}//${document.domain}:${location.port}/file`);
+
 
 function uploadFile(file, name, type) {
     file_socket.emit('upload event', { data: { 'file': file }, name: name, type: type })
@@ -67,7 +69,8 @@ file_socket.on('remove response', function (msg) {
 
 // Readalongs Configuration Socket
 
-var config_socket = io.connect('http://' + document.domain + ':' + location.port + '/config')
+// var config_socket = io.connect('http://' + document.domain + ':' + location.port + '/config')
+var config_socket = io.connect(`${window.location.protocol}//${document.domain}:${location.port}/config`)
 
 function updateConfig(k, v) {
     const data_obj = {}

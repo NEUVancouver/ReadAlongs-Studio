@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Preview</title>
+        <!-- Import fonts. Material Icons are needed by the web component -->
+        <link href="https://fonts.googleapis.com/css?family=Lato%7CMaterial+Icons%7CMaterial+Icons+Outlined" rel="stylesheet">
+
+        <!-- The last step needed is to import the package -->
+        <script type="module" src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.esm.js'></script>
+        <script nomodule src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.js'></script>
+    </head>
+
+    <body>
+        <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}'></read-along>
+            <span slot="read-along-header">Preview</span>
+        </read-along>
+    </body>
+
+    <div class="columns is-mobile is-centered download">
+        <div class="column is-half is-centered has-text-centered">
+            <a class="button is-medium" href='/download/{{data.base}}'>Download Files</a>
+        </div>
+    </div>
+
+
+    {% if 'log' in data %}
+    <div class="container log">
+        <h1 class='title'>Log</h1>
+        <p>Here's a log for debugging.</p>
+        <p>{{data.log}}</p>
+    </div>
+    {% endif %}
+</html>

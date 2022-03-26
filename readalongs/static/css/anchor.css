@@ -1,0 +1,68 @@
+#waveform {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 926px;
+}
+
+.controls {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 926px;
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0px 0px 20px 0px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.context-menu {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  padding: 10px;
+  /* width: 160px; */
+  height: 40px;
+  background-color: #fff;
+  border: solid 1px #dfdfdf;
+  box-shadow: 1px 1px 2px #cfcfcf;
+}
+
+.context-menu--active {
+  display: block;
+}
+
+.context-menu__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* 
+.context-menu__item {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.context-menu__item:last-child {
+  margin-bottom: 0;
+} */
+
+/* .context-menu__link {
+  padding: 4px 12px;
+  color: #0066aa;
+  text-decoration: none;
+  justify-content: space-between;
+} */
+
+.context-menu__link:hover {
+  color: #fff;
+  background-color: #0066aa;
+}
+
+.hidden {
+  display: none;
+}

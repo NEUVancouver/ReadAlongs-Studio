@@ -1,31 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
+
+<script src="/static/js/anchor.js" defer></script>
+<script src="/static/js/wavesurfer.js" defer></script>
+
+<script src="https://unpkg.com/wavesurfer.js"></script>
+<script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.regions.js"></script>
+<script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.markers.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Lato|Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="/static/css/anchor.css" rel="stylesheet">
+
 <section class="section">
     <div class="container export__desc">
-        <h1 class="title">Congratulations!</h1>
+        <h1 class="title">Step 3 - Generation completed</h1>
         <h2 class="subtitle">
-            Export your ReadAlong to your own website</h2>
+            You can adjust the anchor below</h2>
     </div>
-    <div class="container code m-t-50">
-        <h1 class='title'>Code</h1>
-        <p>Here's a snippet of code to embed in your site!</p>
-        <code>
-            &lt;script type="module" src='https://unpkg.com/@roedoejet/readalong/dist/read-along/read-along.esm.js'&gt;&lt;/script&gt;
-            &lt;script nomodule src='https://unpkg.com/@roedoejet/readalong/dist/read-along/read-along.js'&gt;&lt;/script&gt;
-            &lt;read-along text="aligned.xml" alignment="aligned.smil" audio="aligned{{data.audio_ext}}"&gt;&lt;/read-along&gt;
-        </code>
-    </div>
+
     <div class="container readalong">
-        <h1 class='title'>ReadAlong</h1>
-        <p>Here's your interactive read along!</p>
-        <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}'></read-along>
+        <div id="waveform"></div>
+
+        <div class="controls">
+            <button class="btn btn-primary" data-action="play">
+            <i class="glyphicon glyphicon-play"></i>Play /
+            <i class="glyphicon glyphicon-pause"></i> Pause
+            </button>
+            <button class="btn btn-primary" data-action="play-region">
+            <i class="glyphicon glyphicon-retweet"></i>
+            Play Region
+            </button>
+
+            <button class="btn btn-primary" data-action="preview">
+            <i class="glyphicon glyphicon-headphones"></i>
+            Preview
+            </button>
+            <button class="btn btn-primary" data-action="export-anchor" disabled>
+              <i class="glyphicon glyphicon-floppy-disk"></i></a>
+              Export Anchor
+            </button>
+            <button class="btn btn-primary" data-action="export-original">
+              <i class="glyphicon glyphicon-floppy-disk"></i></a>
+              Export Original
+            </button>
+        </div>
+
+        <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}' base='{{data.base}}'></read-along>
         {# <read-along text="/file/aligned.xml" alignment="/file/aligned.smil" audio="/file/aligned{{data.audio_ext}}"></read-along> #}
     </div>
+
+<!-- 
     <div class="columns is-mobile is-centered download">
         <div class="column is-half is-centered has-text-centered">
             <a class="button is-medium" href='/download/{{data.base}}'>Download Files</a>
         </div>
     </div>
+  -->
     {% if 'log' in data %}
     <div class="container log">
         <h1 class='title'>Log</h1>
@@ -39,4 +71,23 @@
     </div>
     {% endif %}
 </section>
+
+  <!-- Context Menu -->
+  <nav id="context-menu" class="context-menu" data-id="">
+    <ul class="context-menu__items">
+      <div class="context-menu__item">
+        <ul class="flex-container">
+          <li>
+            <a href="#" class="context-menu__link" data-action="add-anchor">
+              <i class="glyphicon glyphicon-indent-left"></i> Insert Anchor
+            </a>
+            <a href="#" class="context-menu__link" data-action="del-anchor">
+              <i class="glyphicon glyphicon-remove"></i> Delete Anchor
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </nav>
+
 {% endblock %}

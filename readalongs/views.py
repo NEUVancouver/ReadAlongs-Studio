@@ -91,6 +91,22 @@ def update_session_config(**kwargs) -> dict:
     session["config"] = {**previous_config, **kwargs}
     return session["config"]
 
+def update_anchor_config(xml) -> str:
+    """Update the anchor configuration for running readalongs aligner.
+
+    Args:
+        **kwargs: Arbitrary keyword arguments, which will update the anchor config
+
+    Returns:
+        dict: Returns the updated anchor configuration
+    """
+    save_path = os.path.join(session["temp_dir"], "anchor.xml")
+    with open(save_path, "w") as f:
+        f.write(xml)
+    session["xml"] = save_path;
+
+    return "OK"
+
 
 @app.route("/")
 def home():
@@ -101,6 +117,12 @@ def home():
 @socketio.on("config update event", namespace="/config")
 def update_config(message):
     emit("config update response", {"data": update_session_config(**message)})
+
+@socketio.on("anchor update event", namespace="/anchor")
+def update_anchor(message):
+    print ("a")
+    print(message)
+    emit("anchor update response", {"data": update_anchor_config(message)})
 
 
 @socketio.on("upload event", namespace="/file")
@@ -217,6 +239,62 @@ def steps(step):
             )
             data["smil_fn"] = f"/file/{output_base}" + ".smil"
         return render_template("export.html", data=data)
+    elif step == 4:
+        if "audio" not in session or "text" not in session:
+            log = "Sorry, it looks like something is wrong with your audio or text. Please try again."
+            data = {"log": log}
+        elif session["text"].endswith("txt") and not session.get("config", {}).get(
+            "lang"
+        ):
+            log = "Sorry, the language setting is required for plain text files. Please try again."
+            data = {"log": log}
+        else:
+            kwargs = dict()
+            kwargs["force_overwrite"] = True
+            kwargs["save_temps"] = session["config"].get("--save-temps", False)
+            kwargs["output_formats"] = []
+            if session["config"].get("--closed-captioning", False):
+                kwargs["output_formats"].append("srt")
+            if session["config"].get("--text-grid", False):
+                kwargs["output_formats"].append("TextGrid")
+            if session["text"].endswith("txt"):
+                kwargs["language"] = [session["config"]["lang"]]
+
+            output_base = "aligned_preview"
+
+            kwargs["textfile"] = session["xml"]
+            kwargs["audiofile"] = session["audio"]
+            kwargs["output_base"] = os.path.join(session["temp_dir"], output_base)
+            LOGGER.info(kwargs)
+
+            _, audio_ext = os.path.splitext(session["audio"])
+            data = {"audio_ext": audio_ext, "base": output_base}
+            (status, exception, log_text) = align(**kwargs)
+            status_text = "OK" if status == 0 else "Error"
+            if session["config"].get("show-log", False):
+                data["log"] = f"Status: {status_text}"
+                if exception:
+                    data["log"] += f"; Exception: {exception!r}"
+                data["log_lines"] = list(re.split(r"\r?\n", log_text))
+            else:
+                if status != 0 or exception:
+                    # Always display errors, even when logs are not requested
+                    data["log"] = f"Status: {status_text}; Exception: {exception!r}"
+
+            data["audio_path"] = os.path.join(
+                session["temp_dir"], output_base, output_base + audio_ext
+            )
+            data["audio_fn"] = f"/file/{output_base}" + audio_ext
+            data["text_path"] = os.path.join(
+                session["temp_dir"], output_base, output_base + ".xml"
+            )
+            data["text_fn"] = f"/file/{output_base}" + ".xml"
+            data["smil_path"] = os.path.join(
+                session["temp_dir"], output_base, output_base + ".smil"
+            )
+            data["smil_fn"] = f"/file/{output_base}" + ".smil"
+        return render_template("feedback.html", data=data)
+
     else:
         abort(404)
 

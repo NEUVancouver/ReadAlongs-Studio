@@ -84,6 +84,24 @@ config_socket.on('config update response', function (msg) {
 
 })
 
+// Readalongs Anchor Update Socket
+var anchor_socket = io.connect(`${window.location.protocol}//${document.domain}:${location.port}/anchor`);
+
+function updateAnchor(xmlString) {
+    anchor_socket.emit('anchor update event', xmlString )
+}
+
+anchor_socket.on('anchor update response', function (msg) {
+    if (!msg.hasOwnProperty('error')){
+        toastr["success"](`Opening preview window...`);
+
+        let url = `${window.location.protocol}//${document.domain}:${location.port}/step/4`;
+        window.open(url, 'anchor_preview', '');
+    } else {
+        toastr["error"](`Hmm. Something went wrong. Please try again. ${msg['error']}`)
+    }
+})
+
 // Spinner
 function spinner(id) {
     document.getElementById(id).classList.add('is-active')

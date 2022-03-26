@@ -120,8 +120,6 @@ def update_config(message):
 
 @socketio.on("anchor update event", namespace="/anchor")
 def update_anchor(message):
-    print ("a")
-    print(message)
     emit("anchor update response", {"data": update_anchor_config(message)})
 
 

@@ -13,6 +13,6 @@ app.secret_key = os.urandom(24)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-socketio = SocketIO(app, manage_session=False)
+socketio = SocketIO(app, manage_session=False, cors_allowed_origins="*")
 
 import readalongs.views  # noqa: E402

@@ -25,7 +25,6 @@
   position: absolute;
   z-index: 10;
   padding: 10px;
-  /* width: 160px; */
   height: 40px;
   background-color: #fff;
   border: solid 1px #dfdfdf;
@@ -41,22 +40,6 @@
   margin: 0;
   padding: 0;
 }
-/* 
-.context-menu__item {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.context-menu__item:last-child {
-  margin-bottom: 0;
-} */
-
-/* .context-menu__link {
-  padding: 4px 12px;
-  color: #0066aa;
-  text-decoration: none;
-  justify-content: space-between;
-} */
 
 .context-menu__link:hover {
   color: #fff;

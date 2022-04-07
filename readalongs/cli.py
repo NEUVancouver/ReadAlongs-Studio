@@ -229,6 +229,7 @@ def cli():
     help="OBSOLETE: now --debug-g2p",
     callback=get_obsolete_callback_for_click("Use --debug-g2p instead."),
 )
+@click.option("-f", "--fallback-smil", is_flag=True, default=True, help="Fallback mock alignments")
 def align(**kwargs):  # noqa: C901  # some versions of flake8 need this here instead
     """Align TEXTFILE and AUDIOFILE and create output files as OUTPUT_BASE.* in directory
     OUTPUT_BASE/.
@@ -368,6 +369,7 @@ def align(**kwargs):  # noqa: C901  # some versions of flake8 need this here ins
             save_temps=temp_base,
             verbose_g2p_warnings=kwargs["debug_g2p"],
             debug_aligner=kwargs["debug_aligner"],
+            fallback_smil=kwargs["fallback_smil"],
         )
     except RuntimeError as e:
         raise click.UsageError(e) from e

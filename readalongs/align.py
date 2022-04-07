@@ -164,6 +164,7 @@ def align_audio(  # noqa: C901
     save_temps=None,
     verbose_g2p_warnings=False,
     debug_aligner=False,
+    fallback_smil=False,
 ):
     """Align an XML input file to an audio file.
 
@@ -185,6 +186,7 @@ def align_audio(  # noqa: C901
     Raises:
         TODO
     """
+
     results: Dict[str, List] = {"words": [], "audio": None}
 
     # First do G2P
@@ -393,10 +395,32 @@ def align_audio(  # noqa: C901
     LOGGER.info(f"Number of aligned segments: {aligned_segment_count}")
 
     if aligned_segment_count == 0:
-        raise RuntimeError(
-            "Alignment produced only noise or silence segments, "
-            "please verify that the text is an actual transcript of the audio."
-        )
+
+        if not fallback_smil:
+            raise RuntimeError(
+                "Alignment produced only noise or silence segments, "
+                "please verify that the text is an actual transcript of the audio."
+            )
+
+        # Get the Tokenized XML-ID to generate the default SMIL
+        xml = results["tokenized"]
+        ids = xml.xpath('//w/@id')
+        
+        # Calculate Duration and indvidual word breakdown
+        audio = read_audio_from_file(audio_path)
+        duration = audio.frame_count() / audio.frame_rate
+        delta = duration / len(ids)
+
+        # Create new Words
+        new_words = []
+        for i, id in enumerate(ids):
+            #  Generate Data Structure : { "id": "t0b0d0p0s0w0", "start": 1.31, "end": 4.25 },
+            start = delta * i
+            end = delta * (i + 1)
+            new_words.append({"id": id, "start": start, "end": end})
+        results["words"] = new_words
+        results["fallback"] = True
+
     if aligned_segment_count != token_count:
         LOGGER.warning(
             "Alignment produced a different number of segments and tokens than "

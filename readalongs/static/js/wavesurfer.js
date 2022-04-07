@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: "pointer",
             time: 0,
             label: "",
-            position : "top",
+            position: "top",
             color: "#ffaa11",
             draggable: true,
           },
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   wavesurfer.on("marker-drop", function (marker) {
-    if (marker.position === "top"){
-      readAlong.goToTime(marker.time);
+    if (marker.position === "top") {
+      window.readAlong.goToTime(marker.time);
     }
   });
 
@@ -52,11 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
   wavesurfer.load(audio);
 });
 
-function addMarker(text, time) {
+function addMarker(text, time, color) {
   return wavesurfer.markers.add({
     time: time,
     label: text,
-    color: "#ffaa11",
+    color: color,
     draggable: true,
   });
 }

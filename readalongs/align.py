@@ -402,6 +402,9 @@ def align_audio(  # noqa: C901
                 "please verify that the text is an actual transcript of the audio."
             )
 
+        LOGGER.warning("Alignment produced only noise or silence segments, please verify that the text is an actual transcript of the audio.")
+        LOGGER.warning("Starting fallback mode generation of SMIL file.")
+
         # Get the Tokenized XML-ID to generate the default SMIL
         xml = results["tokenized"]
         ids = xml.xpath('//w/@id')

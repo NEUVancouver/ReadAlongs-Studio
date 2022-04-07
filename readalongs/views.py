@@ -208,6 +208,7 @@ def steps(step):
             kwargs["textfile"] = session["text"]
             kwargs["audiofile"] = session["audio"]
             kwargs["output_base"] = os.path.join(session["temp_dir"], output_base)
+            kwargs["fallback_smil"] = session["config"].get("fallback-smil", False)
             LOGGER.info(kwargs)
 
             _, audio_ext = os.path.splitext(session["audio"])

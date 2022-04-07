@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function () {
           anchors = anchors.filter((x) => x.id != id);
 
           // Remove from waveForm
-          window.removeAnchor(anchor);
+          window.delAnchor(anchor);
 
           // Remove icon
           element.parentElement.removeChild(element);

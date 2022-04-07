@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function contextListener() {
       document.addEventListener("contextmenu", function (e) {
         let taskItemInContext = lookupElement(e);
-  
+
         if (taskItemInContext) {
           e.preventDefault();
           toggleMenuOn(taskItemInContext);
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (isValidAnchorSetup()) {
             generateXML((xmlDoc) => {
               let xmlString = processMerging(xmlDoc);
-              updateAnchor(xmlString);
+              window.updateAnchor(xmlString);
               document.querySelector('[data-action="export-anchor"]').disabled = false;
             });
           }
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
           let text = element.innerHTML;
           let time = window.readAlong.getTime(id);
           let color =  palette.pop();
-          var anchor = addAnchor(id, text, time, color);
+          var anchor = window.addAnchor(id, text, time, color);
 
           // Add icon
           let icon = createAnchor(id, text, color);
@@ -359,10 +359,10 @@ document.addEventListener("DOMContentLoaded", function () {
           var anchor = anchors.filter((x) => x.id == id)[0];
 
           // Remove from Anchor List
-          anchors.remove(anchor);
+          anchors = anchors.filter((x) => x.id != id);
 
           // Remove from waveForm
-          removeAnchor(anchor);
+          window.removeAnchor(anchor);
 
           // Remove icon
           element.parentElement.removeChild(element);
@@ -384,8 +384,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // Sort using the id, then copmare the timestamp
       anchors.sort(function (a, b) {
-        let idA = a.id.match(/(\d+)/).join("");
-        let idB = b.id.match(/(\d+)/).join("");
+        let idA = parseInt(a.id.match(/(\d+)/g).join(""));
+        let idB = parseInt(b.id.match(/(\d+)/g).join(""));
         return idA - idB;
       });
   

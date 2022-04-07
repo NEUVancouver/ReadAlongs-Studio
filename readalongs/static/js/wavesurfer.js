@@ -52,11 +52,31 @@ document.addEventListener("DOMContentLoaded", function () {
   wavesurfer.load(audio);
 });
 
-function addMarker(text, time, color) {
-  return wavesurfer.markers.add({
+/**
+ * API Endpoint that available to be trigger by external modules
+ */
+
+/**
+ * Add Anchor to waveform
+ */
+function addAnchor(id, text, time, color) {
+  let anchor = wavesurfer.markers.add({
     time: time,
-    label: text,
+    label: "",
     color: color,
     draggable: true,
   });
+  // Enrich the anchor information
+  anchor.id = id;
+  anchor.text = text;
+
+  return anchor;
+}
+
+/**
+ * Delete Anchor from waveform
+ */
+function delAnchor(anchor){
+  let index = wavesurfer.markers.markers.indexOf(anchor);
+  wavesurfer.markers.remove(index);
 }

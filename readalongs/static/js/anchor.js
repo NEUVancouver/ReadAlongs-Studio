@@ -218,6 +218,9 @@ document.addEventListener("DOMContentLoaded", function () {
       };
     }
   
+    /**
+     * Add Control Button Handler
+     */
     function buttonListener() {
       document
         .querySelector('[data-action="play"]')
@@ -228,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document
         .querySelector('[data-action="play-region"]')
         .addEventListener("click", function () {
-          let region = Object.values(wavesurfer.regions.list)[0];
+          let region = Object.values(window.wavesurfer.regions.list)[0];
           if (region) {
             region.play();
           }
@@ -324,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     /**
-     * Dummy action function that logs an action when a menu item link is clicked
+     * Action when select the menu item.
      *
      * @param {HTMLElement} link The link that was clicked
      */
@@ -332,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let id = menu.getAttribute("data-id");
       let action = link.getAttribute("data-action");
   
-      console.log("Tag ID - " + id + ", Tag action - " + action);
+      console.log("Tag ID - " + id + " with action - " + action);
   
       let element = readalong.shadowRoot.querySelector(`#${id}`);
       switch (action) {
@@ -340,23 +343,28 @@ document.addEventListener("DOMContentLoaded", function () {
           let text = element.innerHTML;
           let time = window.readAlong.getTime(id);
           let color =  palette.pop();
-          var anchor = addMarker("", time, color);
+          var anchor = addAnchor(id, text, time, color);
 
           // Add icon
           let icon = createAnchor(id, text, color);
           element.parentElement.insertBefore(icon, element);
 
           // Put Anchor into the list
-          anchor.id = id;
           anchors.push(anchor);
 
           break;
         case "del-anchor":
-          var anchor = anchors.filter((x) => x.id == id)[0];
-          let index = window.wavesurfer.markers.markers.indexOf(anchor);
-          window.wavesurfer.markers.remove(index);
-          anchors = anchors.filter((x) => x.id != id);
 
+          // Lookkup the Anchor
+          var anchor = anchors.filter((x) => x.id == id)[0];
+
+          // Remove from Anchor List
+          anchors.remove(anchor);
+
+          // Remove from waveForm
+          removeAnchor(anchor);
+
+          // Remove icon
           element.parentElement.removeChild(element);
           break;
       }
@@ -364,6 +372,9 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleMenuOff();
     }
   
+    /**
+     * Validate the Anchor ordering
+     */
     function isValidAnchorSetup() {
   
       if (anchors.length == 0) {
@@ -382,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < anchors.length; i++) {
         if (previous.time > anchors[i].time) {
           alert(
-            `The text "${anchors[i].label}" is earlier than the previous text "${previous.label}"`
+            `The text "${anchors[i].text}" is earlier than the previous text "${previous.text}"`
           );
           return false;
         }

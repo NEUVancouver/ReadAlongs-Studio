@@ -1,3 +1,6 @@
+/**
+ * Anchor Handler
+ */
 document.addEventListener("DOMContentLoaded", function () {
   (
     function () {
@@ -233,10 +236,15 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function () {
           let region = Object.values(window.wavesurfer.regions.list)[0];
           if (region) {
+            if (window.wavesurfer.isPlaying()){
+             window.wavesurfer.playPause();
+            }
+            else{
             region.play();
+           }
           }
           else{
-            alert("There is no region selected");
+            toast.show("error", "There is no region selected");
           }
         });
   
@@ -378,7 +386,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function isValidAnchorSetup() {
   
       if (anchors.length == 0) {
-        alert("There is no anchor setup currently.")
+        toast.show("error", "There is no anchor setup currently.")
         return false;
       }
   
@@ -392,7 +400,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let previous = { time: -1 };
       for (let i = 0; i < anchors.length; i++) {
         if (previous.time > anchors[i].time) {
-          alert(
+          toast.show("error", 
             `The text "${anchors[i].text}" is earlier than the previous text "${previous.text}"`
           );
           return false;
@@ -479,8 +487,6 @@ document.addEventListener("DOMContentLoaded", function () {
     init();
   })();
 });
-
-
 
 var palette = [
   "#69D2E7","#A7DBD8","#E0E4CC","#F38630","#FA6900",

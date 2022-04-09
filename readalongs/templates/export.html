@@ -8,56 +8,64 @@
 <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.regions.js"></script>
 <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.markers.js"></script>
 
-<link href="https://fonts.googleapis.com/css?family=Lato|Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-
 <link href="/static/css/anchor.css" rel="stylesheet">
 
-<section class="section">
+<section>
+  <div class="container bs-stepper">
+    <div class="bs-stepper-header" role="tablist">
+      <div class="step" >
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">1</span>
+          <span class="bs-stepper-label">File Upload</span>
+        </button>
+      </div>
+      <div class="line"></div>
+      <div class="step" >
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">2</span>
+          <span class="bs-stepper-label">Additional Configuration</span>
+        </button>
+      </div>
+      <div class="line"></div>
+      <div class="step active" >
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">3</span>
+          <span class="bs-stepper-label">Done</span>
+        </button>
+      </div>
+    </div>
+  
     <div class="container export__desc">
-        <h1 class="title">Step 3 - Generation completed</h1>
-        <h2 class="subtitle">
-            You can adjust the anchor below</h2>
+        <h2 class="subtitle">You can further adjust the anchor below</h2>
     </div>
 
-    <div class="container readalong">
-        <div id="waveform"></div>
-
+    <div class="container">
         <div class="controls">
+          <div class="container d-grid gap-2 d-md-flex justify-content-md-center">
             <button class="btn btn-primary" data-action="play">
-            <i class="glyphicon glyphicon-play"></i>Play /
-            <i class="glyphicon glyphicon-pause"></i> Pause
+              <i class="bi bi-play-fill"></i>Play /
+              <i class="bi bi-pause-fill"></i>Pause
             </button>
             <button class="btn btn-primary" data-action="play-region">
-            <i class="glyphicon glyphicon-retweet"></i>
-            Play Region
+              <i class="bi bi-play-fill"></i>Play /
+              <i class="bi bi-pause-fill"></i>Pause Region
             </button>
-
             <button class="btn btn-primary" data-action="preview">
-            <i class="glyphicon glyphicon-headphones"></i>
-            Preview
+              <i class="bi bi-postcard"></i>Preview
             </button>
             <button class="btn btn-primary" data-action="export-anchor" disabled>
-              <i class="glyphicon glyphicon-floppy-disk"></i></a>
-              Export Anchor
+              <i class="bi bi-download"></i>Save Anchor
             </button>
             <button class="btn btn-primary" data-action="export-original">
-              <i class="glyphicon glyphicon-floppy-disk"></i></a>
-              Export Original
+              <i class="bi bi-download"></i>Save Original
             </button>
         </div>
-
+        <div id="waveform" class="border"></div>
+        
         <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}' base='{{data.base}}'></read-along>
-        {# <read-along text="/file/aligned.xml" alignment="/file/aligned.smil" audio="/file/aligned{{data.audio_ext}}"></read-along> #}
+        
     </div>
 
-<!-- 
-    <div class="columns is-mobile is-centered download">
-        <div class="column is-half is-centered has-text-centered">
-            <a class="button is-medium" href='/download/{{data.base}}'>Download Files</a>
-        </div>
-    </div>
-  -->
     {% if 'log' in data %}
     <div class="container log">
         <h1 class='title'>Log</h1>

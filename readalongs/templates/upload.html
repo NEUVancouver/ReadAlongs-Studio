@@ -1,8 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="section">
-    <div class="container upload__desc">
-        <h1 class="title">Upload</h1>
+
+<section>
+    <div class="container bs-stepper">
+      <div class="bs-stepper-header" role="tablist">
+        <div class="step active" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">1</span>
+            <span class="bs-stepper-label">File Upload</span>
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="step" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">2</span>
+            <span class="bs-stepper-label">Additional Configuration</span>
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="step" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">3</span>
+            <span class="bs-stepper-label">Done</span>
+          </button>
+        </div>
+      </div>
+    
+      <div class="container export__desc">
         <h2 class="subtitle">
             Upload data to start creating your ReadAlong</h2>
         <p>In order to make a ReadAlong, we need 3 different things. We need some <b>text</b>, some corresponding
@@ -11,91 +35,70 @@
                 href='https://en.wikipedia.org/wiki/Orthography'>Orthography</a>) into the <a
                 href='https://en.wikipedia.org/wiki/International_Phonetic_Alphabet'>International Phonetic Alphabet
                 (IPA)</a>. If you're not a linguist, don't worry! This sounds scarier than it is, and, once you make the
-            map between your
-            language's writing system and the IPA once, you don't have to do it again!</p>
+            map between your language's writing system and the IPA once, you don't have to do it again!</p>
     </div>
-    <div class="container upload__text">
-        <h1 class="title">Text</h1>
-        <h2 class="subtitle">
-            Upload the text of your ReadAlong</h2>
-        <p>You can upload text in a number of ways. You can upload plain text files (.txt), Microsoft Word Documents
-            (.docx), or XML files (.xml)</p>
-        <form id='textForm'>
-            <input type="file" name="text" accept=".docx,.txt,.xml">
-            <input type="submit">
-        </form>
-    </div>
-    <div class="container upload__audio">
-        <h1 class="title">Audio</h1>
-        <h2 class="subtitle">
-            Upload the audio of your ReadAlong</h2>
-        <p>You must upload your audio either as an mp3 or wav file.</p>
-        <form id='audioForm'>
-            <input type="file" name="audio" accept=".mp3,.wav">
-            <input type="submit"/>
-        </form>
-    </div>
-    <div class="container upload__audio">
-        <h1 class="title">Mapping</h1>
-        <h2 class="subtitle">
-            The map between your language's writing system, and the International Phonetic Alphabet.</h2>
-        <p>The reason ReadAlong Studio works is because it leverages technologies that have been created for English.
-            Usually,
-            need a certain amount of data is needed in order to do the alignment that ReadAlong Studio does. But,
-            instead of that, your
-            ReadAlong is first converted to a very approximate English pronounciation. Then, ReadAlong Studio can
-            do the alignment based on that, and convert it back into your language once it's done.</p>
-        <p>You can also use the dropdown below to select a pre-configured mapping for your language.</p>
-        <select onchange="updateConfig('lang', this.value)">
-            <option value='custom'>User Uploaded</option>
-            <option value='eng'>eng - English</option>
-            {% for map in maps %}
-            <option value="{{map['code']}}">{{ map['code'] + ' - ' + map['name'] }}</option>
-            {% endfor %}
-        </select>
-        <form id='mapForm'>
-            <input type="file" name="map" accept=".csv,.xlsx">
-            <input type="submit">
-        </form>
-    </div>
+    
+    <div class="container">
+        <form id="uploadFrm" autocomplete="off">
+            <div class="row g-2">
+                <div class="col-6 p-3 border bg-light">
+                    <h1 class="title">Text</h1>
+                    <h2 class="subtitle">Upload the text</h2>
+                    <div class="mb-3">
+                        <label for="updateText" class="form-label">Upload text files (.txt), Microsoft Word 
+                            (.docx), or XML files (.xml)</label>
+                        <input class="form-control" name="text" type="file" id="updateText" accept=".docx,.txt,.xml" onchange="uploadFile('text', this)">
+                    </div>
+                </div>
+                <div class="col-6 p-3 border bg-light">
+                    <h1 class="title">Audio</h1>
+                    <h2 class="subtitle">Upload the audio</h2>
+                    <div class="mb-3">
+                        <label for="updateAudio" class="form-label">You must upload your audio either as an mp3 or wav file.</label>
+                        <input class="form-control" name="audio" type="file" id="updateAudio" accept=".mp3,.wav" onchange="uploadFile('audio', this)">
+                    </div>
+                </div>
+                <div class="col-12 p-3 border bg-light">
+                    <h1 class="title">Mapping</h1>
+                    <h2 class="subtitle">
+                        The map between your language's writing system, and the International Phonetic Alphabet.</h2>
+                    <p>The reason ReadAlong Studio works is because it leverages technologies that have been created for English.
+                        Usually, need a certain amount of data is needed in order to do the alignment that ReadAlong Studio does. But,
+                        instead of that, your ReadAlong is first converted to a very approximate English pronounciation. Then, ReadAlong Studio can
+                        do the alignment based on that, and conveasdfasdfrt it back into your language once it's done.</p>
+                    
+                    <div class="mb-3">
+                        <label for="langSelect" class="form-label">You can also use the dropdown below to select a pre-configured mapping for your language.</label>
+                        <br/>
+                        <div class="row">
+                            <div class="col-5">
+                                <select class="form-select" id="langSelect" aria-label="Select language" onchange="updateConfig('lang', this.value)" >
+                                    <option value='custom'>User Uploaded</option>
+                                    <option value='eng'>eng - English</option>
+                                    {% for map in maps %}
+                                    <option value="{{map['code']}}">{{ map['code'] + ' - ' + map['name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-1 p-2">
+                                <span class="align-self-center">OR</span>
 
-    <div class="container uploaded">
-        <h1 class="title">Uploaded Material</h1>
-        <h2 class="subtitle">
-            Here are the files you've uploaded</h2>
-            <p>**Not Implemented: Here is one of the reasons we need data binding**</p>
-        {# {% for k, v in uploaded.items() %}
-        {% if v %}
-        {% for f in v %}
-        <div id="{{ f['fn'] }}" class='uploaded__file'>
-            <div class='uploaded__file--icons'>
-                <span class="icon">
-                    {% if k == 'audio' %}
-                    <i class="fas fa-file-audio"></i>
-                    {% elif k == 'text' %}
-                    <i class="fas fa-file-alt"></i>
-                    {% elif k == 'maps' %}
-                    <i class="fas fa-file-csv"></i>
-                    {% endif %}
-                </span>
-                <span class='icon uploaded__delete' onclick="removeFile({{ v }})">
-                    <i class="fas fa-trash"></i>
-                </span>
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="file" id="uploadMapping" onchange="uploadFile('mapping', this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p>{{ f['fn'] }}</p>
-
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endfor %} #}
+        </form>
     </div>
 </section>
 
-<div class="columns is-mobile is-centered">
-    <div class="column is-half is-centered has-text-centered">
-        <a class="button is-medium" href="/step/2">Go to the next step!</a>
+<div class="columns is-centered m-3">
+    <div class="controls">
+        <button class="btn btn-primary" onclick="proceedStep2()">Go to next step</button></a>
     </div>
 </div>
-
 
 {% endblock %}

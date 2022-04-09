@@ -8,16 +8,23 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ReadAlong Web Component</title>
+    <title>ReadAlong Studio</title>
 
     <!-- Bulma core CSS -->
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
      <!-- Bulma Extensions -->
-     <link href="{{ url_for('static', filename='css/pageloader.css') }}" rel='stylesheet'>
+     <link href="{{ url_for('static', filename='css/pageloader.css') }}" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link href="{{ url_for('static', filename='css/all.min.css') }}" rel="stylesheet">
-    <!-- Toastr -->
-    <link href="{{ url_for('static', filename='css/toastr.min.css') }}" rel='stylesheet'>
+
+    <!-- Boostrap CSS-->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" > -->
+    <!-- Bootstrap Stepper -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-icons.css') }}" rel="stylesheet">    
+    <link href="{{ url_for('static', filename='css/bs-stepper.css') }}" rel="stylesheet">
+    <!-- Favicon-->
+    <link rel="shortcut icon"  href="{{ url_for('static', filename='css/favicon.ico') }}"  type="image/vnd.microsoft.icon" />
 
     {% endblock %}
 </head>
@@ -25,20 +32,40 @@
 <body id="page-top">
     {% block content %}{% endblock %}
 </body>
-<!-- JQUery -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
 <!-- Socket IO -->
 <script src="{{ url_for('static', filename='js/socket.io.slim.js') }}"></script>
 <!-- Toastr -->
-<script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/toastr.min.js') }}" defer></script>
+<!-- Boostrap 5-->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" defer></script>
+
+
 <!-- ReadAlong Web Component -->
 <script type="module" src="/static/dist/read-along/read-along.esm.js"></script>
-<!-- 
+<!-- For Production
 <script type="module" src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.esm.js'></script>
 <script nomodule src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.js'></script>
  -->
+
 <!-- Main JS -->
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!-- Toast Message-->
+<div class="position-fixed top-0 end-0 p-3 opacity-100" style="z-index: 11">
+    <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header error bg-danger text-white">
+            <i class="bi bi-exclamation-circle-fill"></i>&nbsp;&nbsp;
+            <strong class="me-auto text-white">Error</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-header success bg-success text-white">
+            <i class="bi bi-check"></i>&nbsp;&nbsp;
+            <strong class="me-auto text-white">Success</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      <div class="toast-body"></div>
+    </div>
+</div>
 
 </html>

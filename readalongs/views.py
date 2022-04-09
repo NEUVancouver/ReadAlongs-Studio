@@ -116,15 +116,19 @@ def home():
 
 @socketio.on("config update event", namespace="/config")
 def update_config(message):
+    LOGGER.info(f"Config Update : {message}")
     emit("config update response", {"data": update_session_config(**message)})
 
 @socketio.on("anchor update event", namespace="/anchor")
 def update_anchor(message):
+    LOGGER.info(f"Anchor Update : {message}")
     emit("anchor update response", {"data": update_anchor_config(message)})
 
 
 @socketio.on("upload event", namespace="/file")
 def upload(message):
+
+    LOGGER.info(f"File upload : {message['type']} : {message['name']}")
     if message["type"] == "audio":
         save_path = os.path.join(session["temp_dir"], message["name"])
         session["audio"] = save_path
@@ -138,8 +142,7 @@ def upload(message):
         session["mapping"] = save_path
     with open(save_path, "wb") as f:
         f.write(message["data"]["file"])
-    emit("upload response", {"data": {"path": save_path}})
-
+    emit("upload response", {"data": {"path": save_path, "type": message["type"]} })
 
 # @SOCKETIO.on('remove event', namespace='/file')
 # def remove_f(message):

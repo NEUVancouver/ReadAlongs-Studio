@@ -1,41 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="section">
-    <div class="container preview__desc">
-        <h1 class="title">Preview</h1>
-        <h2 class="subtitle">
-            Preview the data in your ReadAlong</h2>
 
+<section>
+    <div class="container bs-stepper">
+      <div class="bs-stepper-header" role="tablist">
+        <div class="step" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">1</span>
+            <span class="bs-stepper-label">File Upload</span>
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="step active" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">2</span>
+            <span class="bs-stepper-label">Additional Configuration</span>
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="step" >
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">3</span>
+            <span class="bs-stepper-label">Done</span>
+          </button>
+        </div>
+      </div>
+    
+      <div class="container export__desc">
+        <h2 class="subtitle">Review the data in your ReadAlong</h2>
     </div>
-    <br>
-    <hr>
-    <div class='container configuration'>
-        <h2>Set some configuration options</h2>
-        <label class="checkbox">
-            <input type="checkbox" onchange="updateConfig('--closed-captioning', this.checked)">
-            Closed Captioning
-        </label>
-        <label class="checkbox">
-            <input type="checkbox" onchange="updateConfig('--save-temps', this.checked)">
-            Save Temporary Files
-        </label>
-        <label class="checkbox">
-            <input value='t' type="checkbox" onchange="updateConfig('--text-grid', this.checked)">
-            Save Text Grids
-        </label>
-        <label class="checkbox">
-            <input value='t' type="checkbox" onchange="updateConfig('show-log', this.checked)">
-            Show Log
-        </label>
-        <label class="checkbox">
-            <input value='t' type="checkbox" onchange="updateConfig('fallback-smil', this.checked)">
-            Fallback smil
-        </label>
+    <br/> 
+    <br/> 
+    <div class='container configuration g-4'>
+        <div class="row">
+            <div class="form-check form-switch col-4">
+                <input type="checkbox"  id="closedCaptioning"  class="form-check-input"  onchange="updateConfig('--closed-captioning', this.checked)">
+                <label class="form-check-label" for="closedCaptioning">
+                    Closed Captioning
+                </label>
+            </div>
+            <div class="form-check form-switch col-4 ">
+                <input type="checkbox"  id="saveTemps"  class="form-check-input"  onchange="updateConfig('--save-temps', this.checked)">
+                <label class="form-check-label" for="saveTemps">Save Temporary Files</label>
+            </div>
+            <div class="form-check form-switch col-4 ">
+                <input type="checkbox"  id="textGrid"  class="form-check-input"  onchange="updateConfig('--text-grid', this.checked)">
+                <label class="form-check-label" for="textGrid">Save Text Grids</label>
+            </div>
+            <div class="form-check form-switch col-4 ">
+                <input type="checkbox"  id="showLog"  class="form-check-input"  onchange="updateConfig('show-log', this.checked)">
+                <label class="form-check-label" for="showLog">Show Log</label>
+            </div>
+            <div class="form-check form-switch col-4">
+                <input type="checkbox"  id="fallbackSmil"  class="form-check-input"  onchange="updateConfig('fallback-smil', this.checked)">
+                <label class="form-check-label" for="fallbackSmil">Fallback smil</label>
+            </div>
+        </div>
     </div>
-    <br>
-    <div class="columns is-mobile is-centered">
-        <div class="column is-half is-centered has-text-centered">
-            <a class="button is-medium" href="/step/3" onclick="spinner('stepTwoSpinner')">Go to the next step!</a>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="columns is-centered">
+        <div class="controls">
+            <a href="/step/3" onclick="spinner('stepTwoSpinner')"><button class="btn btn-primary">Go to next step</button></a>
         </div>
     </div>
     <div id="stepTwoSpinner" class="pageloader is-right-to-left"><span class="title">Please wait while the ReadAlong-Studio aligns your audio and text!</span></div>

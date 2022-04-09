@@ -1,20 +1,18 @@
 #waveform {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 926px;
+  width: 916px;
 }
 
 .controls {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 926px;
+  width: 916px;
 }
 
 .flex-container {
   padding: 0;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 10px 0px;
   list-style: none;
   display: flex;
   justify-content: space-between;

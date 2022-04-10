@@ -35,18 +35,23 @@ config_socket.on('config update response', function (msg) {
 })
 
 /**
- * Readalongs Anchor Socket
+ * Readalongs Anchor Socket 
  */
 var anchor_socket = io.connect(`${window.location.protocol}//${document.domain}:${location.port}/anchor`);
 
+
+/**
+ * Udpate Anchor Information to server [Trigger by WebAlongComponent]
+ */
 function updateAnchor(xmlString) {
     anchor_socket.emit('anchor update event', xmlString )
 }
 
 anchor_socket.on('anchor update response', function (msg) {
     if (!msg.hasOwnProperty('error')){
-        toast.show("success", `Opening preview window...`);
-        window.open("/step/4", 'anchor_preview', '');
+        toast.show("success", "Anchor updated!")
+        // toast.show("success", `Opening preview window...`);
+        // window.open("/step/4", 'anchor_preview', '');
     } else {
         toast.show("error", `Hmm. Something went wrong. Please try again. ${msg['error']}`)
     }
@@ -82,3 +87,17 @@ function proceedStep2(){
     }
     window.location.href = "/step/2"
 }
+
+/**
+ * Export Preview [Trigger by WebAlongComponent]
+ */
+function exportPreview() {
+    window.location.href = "/download/aligned_preview";
+}
+
+// /**
+//  * Export Original [Trigger by WebAlongComponent]
+//  */
+// function exportOriginal(base) {
+//     window.location.href = `/download/${base}`;
+// }

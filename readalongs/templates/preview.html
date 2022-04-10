@@ -2,73 +2,87 @@
 {% block content %}
 
 <section>
-    <div class="container bs-stepper">
-      <div class="bs-stepper-header" role="tablist">
-        <div class="step" >
-          <button type="button" class="step-trigger">
-            <span class="bs-stepper-circle">1</span>
-            <span class="bs-stepper-label">File Upload</span>
-          </button>
-        </div>
-        <div class="line"></div>
-        <div class="step active" >
-          <button type="button" class="step-trigger">
-            <span class="bs-stepper-circle">2</span>
-            <span class="bs-stepper-label">Additional Configuration</span>
-          </button>
-        </div>
-        <div class="line"></div>
-        <div class="step" >
-          <button type="button" class="step-trigger">
-            <span class="bs-stepper-circle">3</span>
-            <span class="bs-stepper-label">Done</span>
-          </button>
-        </div>
+  <div class="container bs-stepper">
+    <div class="bs-stepper-header" role="tablist">
+      <div class="step">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">1</span>
+          <span class="bs-stepper-label">File Upload</span>
+        </button>
       </div>
-    
-      <div class="container export__desc">
-        <h2 class="subtitle">Review the data in your ReadAlong</h2>
+      <div class="line"></div>
+      <div class="step active">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">2</span>
+          <span class="bs-stepper-label">Additional Configuration</span>
+        </button>
+      </div>
+      <div class="line"></div>
+      <div class="step">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">3</span>
+          <span class="bs-stepper-label">Done</span>
+        </button>
+      </div>
+      <div class="line"></div>
+      <div class="step">
+        <button type="button" class="step-trigger">
+          <span class="bs-stepper-circle">4</span>
+          <span class="bs-stepper-label">Download</span>
+        </button>
+      </div>
     </div>
-    <br/> 
-    <br/> 
-    <div class='container configuration g-4'>
-        <div class="row">
-            <div class="form-check form-switch col-4">
-                <input type="checkbox"  id="closedCaptioning"  class="form-check-input"  onchange="updateConfig('--closed-captioning', this.checked)">
-                <label class="form-check-label" for="closedCaptioning">
-                    Closed Captioning
-                </label>
-            </div>
-            <div class="form-check form-switch col-4 ">
-                <input type="checkbox"  id="saveTemps"  class="form-check-input"  onchange="updateConfig('--save-temps', this.checked)">
-                <label class="form-check-label" for="saveTemps">Save Temporary Files</label>
-            </div>
-            <div class="form-check form-switch col-4 ">
-                <input type="checkbox"  id="textGrid"  class="form-check-input"  onchange="updateConfig('--text-grid', this.checked)">
-                <label class="form-check-label" for="textGrid">Save Text Grids</label>
-            </div>
-            <div class="form-check form-switch col-4 ">
-                <input type="checkbox"  id="showLog"  class="form-check-input"  onchange="updateConfig('show-log', this.checked)">
-                <label class="form-check-label" for="showLog">Show Log</label>
-            </div>
-            <div class="form-check form-switch col-4">
-                <input type="checkbox"  id="fallbackSmil"  class="form-check-input"  onchange="updateConfig('fallback-smil', this.checked)">
-                <label class="form-check-label" for="fallbackSmil">Fallback smil</label>
-            </div>
-        </div>
-    </div>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <div class="columns is-centered">
-        <div class="controls">
-            <a href="/step/3" onclick="spinner('stepTwoSpinner')"><button class="btn btn-primary">Go to next step</button></a>
-        </div>
-    </div>
-    <div id="stepTwoSpinner" class="pageloader is-right-to-left"><span class="title">Please wait while the ReadAlong-Studio aligns your audio and text!</span></div>
+  </div>
 
+  <div class="container export__desc">
+    <h2 class="subtitle">Review the data in your ReadAlong</h2>
+  </div>
+  <br />
+  <br />
+  <div class='container configuration g-4'>
+    <div class="row">
+      <div class="form-check form-switch col-4">
+        <input type="checkbox" id="closedCaptioning" class="form-check-input"
+          onchange="updateConfig('--closed-captioning', this.checked)">
+        <label class="form-check-label" for="closedCaptioning">
+          Closed Captioning
+        </label>
+      </div>
+      <div class="form-check form-switch col-4 ">
+        <input type="checkbox" id="saveTemps" class="form-check-input"
+          onchange="updateConfig('--save-temps', this.checked)">
+        <label class="form-check-label" for="saveTemps">Save Temporary Files</label>
+      </div>
+      <div class="form-check form-switch col-4 ">
+        <input type="checkbox" id="textGrid" class="form-check-input"
+          onchange="updateConfig('--text-grid', this.checked)">
+        <label class="form-check-label" for="textGrid">Save Text Grids</label>
+      </div>
+      <div class="form-check form-switch col-4 ">
+        <input type="checkbox" id="showLog" class="form-check-input" onchange="updateConfig('show-log', this.checked)">
+        <label class="form-check-label" for="showLog">Show Log</label>
+      </div>
+      <div class="form-check form-switch col-4">
+        <input type="checkbox" id="fallbackSmil" class="form-check-input"
+          onchange="updateConfig('fallback-smil', this.checked)">
+        <label class="form-check-label" for="fallbackSmil">Fallback smil</label>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
 </section>
+
+<div class="columns is-centered">
+  <div class="controls">
+    <a href="/step/3" onclick="spinner('stepSpinner')"><button class="btn btn-primary">Go to next step</button></a>
+  </div>
+</div>
+<div id="stepSpinner" class="pageloader is-right-to-left"><span class="title">Please wait while the ReadAlong-Studio
+    aligns your audio and text!</span></div>
+    
 {% endblock %}

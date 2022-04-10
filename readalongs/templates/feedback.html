@@ -1,34 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Preview</title>
-        <!-- Import fonts. Material Icons are needed by the web component -->
-        <link href="https://fonts.googleapis.com/css?family=Lato%7CMaterial+Icons%7CMaterial+Icons+Outlined" rel="stylesheet">
+{% extends "base.html" %}
+{% block content %}
 
-        <!-- The last step needed is to import the package -->
-        <script type="module" src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.esm.js'></script>
-        <script nomodule src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.js'></script>
-    </head>
+<!-- ReadAlong Web Component -->
+<script type="module" src="/static/dist/readalongs.esm.js"></script>
+<!-- For Production
+<script type="module" src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.esm.js'></script>
+<script nomodule src='https://unpkg.com/@roedoejet/readalong@latest/dist/read-along/read-along.js'></script>
+ -->
 
-    <body>
-        <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}'></read-along>
-            <span slot="read-along-header">Preview</span>
-        </read-along>
-    </body>
+<section>
 
-    <div class="columns is-mobile is-centered download">
-        <div class="column is-half is-centered has-text-centered">
-            <a class="button is-medium" href='/download/{{data.base}}'>Download Files</a>
+    <div class="container bs-stepper">
+        <div class="bs-stepper-header" role="tablist">
+            <div class="step">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-circle">1</span>
+                    <span class="bs-stepper-label">File Upload</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-circle">2</span>
+                    <span class="bs-stepper-label">Additional Configuration</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-circle">3</span>
+                    <span class="bs-stepper-label">Done</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step active">
+                <button type="button" class="step-trigger">
+                    <span class="bs-stepper-circle">4</span>
+                    <span class="bs-stepper-label">Download</span>
+                </button>
+            </div>
         </div>
     </div>
 
+    <div class="container">
+        <read-along text='{{data.text_fn}}' alignment='{{data.smil_fn}}' audio='{{data.audio_fn}}' base='{{data.base}}'
+            mode='PREVIEW'></read-along>
+    </div>
 
     {% if 'log' in data %}
     <div class="container log">
         <h1 class='title'>Log</h1>
         <p>Here's a log for debugging.</p>
         <p>{{data.log}}</p>
+        {% if 'log_lines' in data %}
+        {% for line in data.log_lines %}
+        <p>{{line}}</p>
+        {% endfor %}
+        {% endif %}
     </div>
     {% endif %}
-</html>
+
+</section>
+
+{% endblock %}

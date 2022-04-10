@@ -49,9 +49,8 @@ function updateAnchor(xmlString) {
 
 anchor_socket.on('anchor update response', function (msg) {
     if (!msg.hasOwnProperty('error')){
-        toast.show("success", "Anchor updated!")
-        // toast.show("success", `Opening preview window...`);
-        // window.open("/step/4", 'anchor_preview', '');
+        // toast.show("success", "Anchor updated!")
+        console.log("Anchor updated!")
     } else {
         toast.show("error", `Hmm. Something went wrong. Please try again. ${msg['error']}`)
     }
